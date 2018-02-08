@@ -1,2 +1,6 @@
 # vim .swp files
 *.swp
+
+# Build products
+*.html
+*.pdf
