@@ -33,6 +33,7 @@ The _staging area_ (or _index_) is a file in the .git directory which stores inf
 # Branching
 
 - Management
+    - Video on team management
 - Merging
 - Rebasing
 - Checkout
@@ -43,6 +44,7 @@ The _staging area_ (or _index_) is a file in the .git directory which stores inf
 - Pushing
 - Forcing
 - Merging with remote
+- GitHub advance (pull requests etc.)
 
 # Misc
 
@@ -129,3 +131,9 @@ This is great for common editor temporary files (`*.swp` for vim or `.#*` for em
 A great place to find Git configuration files is, where else, GitHub! 
 [pksunkara](https://gist.github.com/pksunkara/988716) has a great set of `.gitconfig` and `.gitignore` files which really show off the flexibility of Git.
 Many users keep their dotfiles, `.gitconfig` included, on GitHub, so searching for these can give good inspiration.
+
+## Git/GitHub integration into text editor
+
+# Further reading
+
+- References
