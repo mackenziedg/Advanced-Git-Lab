@@ -11,12 +11,12 @@ Or maybe it tracks files?
 Well it tracks something, right?
 I mean, that's how it does\ldots whatever it is that is actually does.
 
-Many other version control systems (VCS) store changes as files and the changes made over time (these types of systems are referred to as _delta-based_.)(Figure \ref{delta})
+Many other version control systems (VCS) store changes as files and the changes made over time (these types of systems are referred to as _delta-based_ (Figure \ref{delta}).)
 
 ![A delta-based VCS history. \footnotesize{ProGit}\label{delta}](./img/delta-based.png)
 
 Although many people think of it this way (I did until I put together this document), Git is __not__ delta-based.
-Instead, it stores snapshots of the current state of each file, while unchanged files are represented by a link to the previous identical file. (Figure \ref{snapshot-based}) (TODO: does this mean a link to a link or multiple links to one real file?)
+Instead, it stores snapshots of the current state of each file, while unchanged files are represented by a link to the previous identical file (Figure \ref{snapshot-based}).
 
 ![A snapshot-based VCS (Git) history. \label{snapshot-based}](./img/snapshot-based.png)
 
@@ -29,6 +29,117 @@ The _.git directory_ is where the metadata and object database for a repository 
 The _working tree_ is a checked-out version of the project. 
 These are the files themselves which are actually modified by the user.
 The _staging area_ (or _index_) is a file in the .git directory which stores information about what will go into the next commit.
+
+## Basic workflow
+
+The three areas provide a fairly intuitive workflow.
+Files are edited in the working tree.
+Whenever these edits reach a point where they should be committed, the files are added into the staging area.
+The staged files are then committed with a ___useful message___, and added to the .git directory.
+
+The obvious question then becomes
+
+"How do I know when I should commit something?"
+
+and
+
+"Wait, you haven't actually told me how to do anything, this is just a bunch of technical nonsense with no useful method of application."
+
+Well that is technically not a question, but ok.
+
+## git add
+
+If you have used Git on the command line before, this is pretty basic.
+If not, these commands should be very similar to however you had been using Git in the past (SmartGit etc.)
+
+`git add` copies files from the working tree into the staging area.
+
+### Examples
+
+`git add PATH [PATH2] ...` -- Stages `PATH(S)`.
+Pass a dot '`.`' to add all files in the current directory.
+
+#### Flags
+
+`-n` -- Perform a dry-run: just show if the files specified will be added or not, but do not actually add anything.
+
+`-i` -- Perform an interactive add.
+
+### Reference
+
+[`git add` documentation](https://git-scm.com/docs/git-add)
+
+Now that you have all of the files added, it is time to commit the changes.
+
+## git commit
+
+Writes the staged changes to the commit history, along with an associated hash value.
+A text editor will be opened to add a commit message.
+
+### Examples
+
+`git commit` -- Commit the changes specified in the index.
+
+`git commit [PATH] [PATH2] ...` -- Commit the changes to the specified files, ignoring the index.
+
+#### Flags
+
+`-m MESSAGE` -- Specify a message in the command line without opening an editor.
+
+`--amend` -- Combines the current indexed changes with the last commit into a single commit.
+If you have already pushed the most recent commit, it is advisable to instead just create a new commit to fix whatever issue.
+
+`--interactive` -- Perform an interactive commit (equivalent to `git add --interactive`).
+
+### Reference
+
+[`git commit` documentation](https://git-scm.com/docs/git-commit)
+
+A possible scenario: you `add` a number of changes, but realize too late that one file should not have been added to the index.
+
+How do you undo this?
+
+Another scenario: you `commit` your changes and realize you accidentally left in a frustrated string of late-night-debugging-induced profanity.
+
+How do you undo _this_?
+
+"Aha!" you say.
+"If `git add` adds files to the staging area, then sensible naming conventions suggest that if I mistakenly `add` a file, I can remove it from the index with `git rm`!"
+"As for removing the profanity, performing an amended `commit` should solve the problem."
+
+And the answer is\ldots well, `git rm` does exist and will do that, kind of, in certain circumstances.
+And yes, `git commit --amend` will do what you need, although it will run into issues if you have already pushed the offending commit.
+
+Enter `git reset`.
+
+## git reset
+
+Put simply by the documentation itself, "`git reset [PATH]` is the opposite of `git add [PATH]`."
+Within this deceivingly simple description however lies a powerful tool for screwing yourself over if you are not careful.
+
+### Examples
+
+`git reset [MODE] [PATH] [HASH]` -- Reset `PATH(S)` according to a specified `MODE` to a particular commit `HASH`.
+
+So `git reset --soft HEAD^` will move the HEAD one commit backwards, to allow one to fix problems in the most recent commit.
+The documentation describes this process as equivalent to `git commit --amend`, but it will not work with merge commits.
+
+#### Modes
+
+There are five modes of resetting, of which three are very often used.
+
+`--soft` -- Move the HEAD to the specified commit, but do not modify the contents of the working tree or index.
+
+`--mixed` -- Move the HEAD, keep the working tree, but reset the index (Default if no mode is specified.)
+
+`--hard` -- Move the head and reset the index and working tree.
+This is the dangerous one, as it will irreversibly throw out all uncommitted changes to the working tree.
+
+`--merge` and `--keep` also exist, and are explained in more detail in the documentation.
+
+### Reference
+
+[`git reset` documentation](https://git-scm.com/docs/git-reset)
 
 # Branching
 
@@ -68,7 +179,7 @@ Analogous to the ubiquitous command-line tool `grep`, `git grep` defaults to sea
 
 #### References
 
-[`git grep` documentation](https --//git-scm.com/docs/git-grep)
+[`git grep` documentation](https://git-scm.com/docs/git-grep)
 
 ## git log
 
@@ -154,7 +265,7 @@ Simple as that.
 
 ### Reference
 
-[`git blame` documentation](https://git-scm.com/docs/git-blame) 
+[`git diff` documentation](https://git-scm.com/docs/git-diff) 
 
 # 
 - Reset vs revert
@@ -242,4 +353,7 @@ Many users keep their dotfiles, `.gitconfig` included, on GitHub, so searching f
 
 # Further reading
 
-- References
+# Troubleshooting
+
+[k88hudson](https://github.com/k88hudson/git-flight-rules) has compiled a set of "flight rules" for common Git issues.
+It is very thorough, and covers many of the most common error messages, as well as things you might want to do.
