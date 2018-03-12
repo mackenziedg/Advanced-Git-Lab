@@ -48,7 +48,63 @@ The _staging area_ (or _index_) is a file in the .git directory which stores inf
 
 # Misc
 
-- Searching
+## Searching/Logging
+
+Git provides a powerful set of tools for searching through both the working directory and history.
+
+### `git grep`
+
+Analogous to the ubiquitous command-line tool `grep`, `git grep` defaults to searching all files in the working directory.
+
+#### Examples
+
+`git grep STRING`: Returns a list of the file names and lines containing `STRING`.
+
+##### Flags
+
+`-E` -- Search with extended regexes
+`-n` -- Return line numbers with search results.
+`-c` -- Return a count of occurrences of `STRING` by file.
+`--untracked` -- Search all files in the working directory, even if they are not managed by Git.
+
+##### References
+
+[`git grep` documentation](https --//git-scm.com/docs/git-grep)
+
+### git log
+
+Of course, the primary feature of Git is having a record of past versions of the file, so it would be nice to be able to search through the commit history.
+`git log` does just this.
+Running `git log` will produce a list of all commits with associated hashes, author information, datetimes, and messages.
+You _could_ pipe this output into `grep` and find specific information that way, but thankfully there is a better way.
+In fact, there are multiple better ways depending on exactly what you want to do.
+
+#### Examples
+
+`git log [FILE] [BRANCH]` -- Return a list of all commits for the selected file(s) or branch(es)
+
+##### Flags
+
+`-S STRING` -- Return a list of commits which changed the number of occurrences of `STRING`. Passing a `FILE` or `BRANCH` will limit searching to those areas.
+`-L START,END:FILE` -- Return a list of changes to a specified range of lines in `FILE`.
+`-L :FUNCTION:FILE` -- Return a list of changes to a specified `FUNCTION` in a `FILE`. Git is smart enough to recognize function boundaries in most popular languages.
+`-n NUMBER` -- Limit the number of commits to show.
+
+###### Cosmetic options
+
+There are a number of options to "prettify" the output of `git log` into something a little more user friendly.
+Many other options exist beyond these, but this is the what I use. 
+
+`--graph` -- Output a network graph of the branches and commits (think GitHub's Network display)
+`--decorate` -- Print the ref names of commits.
+`--pretty=oneline` -- Pretty-prints the commit data into one line. Can pass a number of options for formatting, including `--pretty=oneline`, `short`, `medium`, `full`, `fuller`, and `raw`, in increasing order of information.
+`--abbrev-commit` -- Only print the partial hash for each commit.
+
+##### Reference
+
+[`git log` documentation](https://git-scm.com/docs/git-log) 
+
+
 - Blaming
 - Diffing
 - Reset vs revert
@@ -57,7 +113,7 @@ The _staging area_ (or _index_) is a file in the .git directory which stores inf
 
 # Configuration
 
-## .gitconfig (or `git config`)
+## .gitconfig/`git config`
 
 Modifying options for Git is as simple as editing the `/etc/.gitconfig` file.
 Or editing the `~/.gitconfig` file. 
@@ -72,7 +128,7 @@ There are three levels of configuration that can be set for Git.
 In decreasing order of precedence, there is the `.git/config` file in the project directory itself.
 Below that is the `~/.gitconfig` file, which controls configuration on the user level, and `/etc/.gitconfig`, which controls the system level settings for all users.
 These files can be edited as basic text files, or modified with the `git config` command.
-For simplicities sake, I will ignore the `config` command, as it is more-or-less a less powerful way to edit the files manually.
+For simplicities sake, I will ignore the `config` command, as it is essentially a less intuitive way to edit the files manually.
 Let's look at some of the options.
 
 ### Aliases
