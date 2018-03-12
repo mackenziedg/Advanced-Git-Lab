@@ -63,8 +63,11 @@ Analogous to the ubiquitous command-line tool `grep`, `git grep` defaults to sea
 ##### Flags
 
 `-E` -- Search with extended regexes
+
 `-n` -- Return line numbers with search results.
+
 `-c` -- Return a count of occurrences of `STRING` by file.
+
 `--untracked` -- Search all files in the working directory, even if they are not managed by Git.
 
 ##### References
@@ -85,19 +88,28 @@ In fact, there are multiple better ways depending on exactly what you want to do
 
 ##### Flags
 
-`-S STRING` -- Return a list of commits which changed the number of occurrences of `STRING`. Passing a `FILE` or `BRANCH` will limit searching to those areas.
+`-S STRING` -- Return a list of commits which changed the number of occurrences of `STRING`.
+Passing a `FILE` or `BRANCH` will limit searching to those areas.
+
 `-L START,END:FILE` -- Return a list of changes to a specified range of lines in `FILE`.
-`-L :FUNCTION:FILE` -- Return a list of changes to a specified `FUNCTION` in a `FILE`. Git is smart enough to recognize function boundaries in most popular languages.
+
+`-L :FUNCTION:FILE` -- Return a list of changes to a specified `FUNCTION` in a `FILE`.
+Git is smart enough to recognize function boundaries in most popular languages.
+
 `-n NUMBER` -- Limit the number of commits to show.
 
-###### Cosmetic options
+##### Cosmetic options
 
 There are a number of options to "prettify" the output of `git log` into something a little more user friendly.
 Many other options exist beyond these, but this is the what I use. 
 
 `--graph` -- Output a network graph of the branches and commits (think GitHub's Network display)
+
 `--decorate` -- Print the ref names of commits.
-`--pretty=oneline` -- Pretty-prints the commit data into one line. Can pass a number of options for formatting, including `--pretty=oneline`, `short`, `medium`, `full`, `fuller`, and `raw`, in increasing order of information.
+
+`--pretty=oneline` -- Pretty-prints the commit data into one line.
+Can pass a number of options for formatting, including `--pretty=oneline`, `short`, `medium`, `full`, `fuller`, and `raw`, in increasing order of information.
+
 `--abbrev-commit` -- Only print the partial hash for each commit.
 
 ##### Reference
@@ -105,7 +117,24 @@ Many other options exist beyond these, but this is the what I use.
 [`git log` documentation](https://git-scm.com/docs/git-log) 
 
 
-- Blaming
+## git blame
+
+A fun way to pin down whose fault things are.
+It is a pretty self-explanatory tool.
+
+### Examples
+
+`git blame FILE [HASH]` -- Returns a list which contains, for each line, a commit hash, author, datetime, line number, and line contents for the most recent changes of each line in `FILE` (optionally for a particular `HASH` only).
+
+#### Flags
+
+`-L [START][,END]` -- Only show lines in the range `START` to `END`.
+One of the two must be provided, but both are not required.
+
+### Reference
+
+[`git blame` documentation](https://git-scm.com/docs/git-blame) 
+
 - Diffing
 - Reset vs revert
 - Stashing
@@ -169,7 +198,7 @@ This is (admittedly) a preference, but adding
     rebase = true
 ```
 
-(or using `git pull --rebase`) will automatically perform a rebase when pulling from remote where you have unique local changes.
+(equivalent to `git pull --rebase`) will automatically perform a rebase when pulling from remote where you have unique local changes.
 By default, Git will merge these changes, resulting in the infamous merge bubble:
 
 ![Example of a merge bubble.](./img/merge-bubble.png){width=100px}
