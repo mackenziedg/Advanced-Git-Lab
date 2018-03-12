@@ -46,21 +46,17 @@ The _staging area_ (or _index_) is a file in the .git directory which stores inf
 - Merging with remote
 - GitHub advance (pull requests etc.)
 
-# Misc
+# Miscellaneous
 
-## Searching/Logging
-
-Git provides a powerful set of tools for searching through both the working directory and history.
-
-### `git grep`
+## `git grep`
 
 Analogous to the ubiquitous command-line tool `grep`, `git grep` defaults to searching all files in the working directory.
 
-#### Examples
+### Examples
 
 `git grep STRING`: Returns a list of the file names and lines containing `STRING`.
 
-##### Flags
+#### Flags
 
 `-E` -- Search with extended regexes
 
@@ -70,11 +66,11 @@ Analogous to the ubiquitous command-line tool `grep`, `git grep` defaults to sea
 
 `--untracked` -- Search all files in the working directory, even if they are not managed by Git.
 
-##### References
+#### References
 
 [`git grep` documentation](https --//git-scm.com/docs/git-grep)
 
-### git log
+## git log
 
 Of course, the primary feature of Git is having a record of past versions of the file, so it would be nice to be able to search through the commit history.
 `git log` does just this.
@@ -82,11 +78,11 @@ Running `git log` will produce a list of all commits with associated hashes, aut
 You _could_ pipe this output into `grep` and find specific information that way, but thankfully there is a better way.
 In fact, there are multiple better ways depending on exactly what you want to do.
 
-#### Examples
+### Examples
 
 `git log [FILE] [BRANCH]` -- Return a list of all commits for the selected file(s) or branch(es)
 
-##### Flags
+#### Flags
 
 `-S STRING` -- Return a list of commits which changed the number of occurrences of `STRING`.
 Passing a `FILE` or `BRANCH` will limit searching to those areas.
@@ -112,7 +108,7 @@ Can pass a number of options for formatting, including `--pretty=oneline`, `shor
 
 `--abbrev-commit` -- Only print the partial hash for each commit.
 
-##### Reference
+### Reference
 
 [`git log` documentation](https://git-scm.com/docs/git-log) 
 
@@ -135,7 +131,32 @@ One of the two must be provided, but both are not required.
 
 [`git blame` documentation](https://git-scm.com/docs/git-blame) 
 
-- Diffing
+## git diff
+
+Shows the line-wise difference between two versions of a file or files.
+Simple as that.
+
+### Examples
+
+`git diff [FILE]` -- Shows the changes between the most recent commit and the working directory (optionally for `FILE` only.)
+
+`git diff [FILE] HASH1 [HASH2]` -- Show the changes between either a particular commit and the working directory, or two commits (optionally for `FILE` only.)
+
+#### Flags
+
+`--stat` -- Show a cute little graphic of which files have changed and how, and how many insertions and deletions have been made in total.
+
+`--name-only` -- Only show the names of files which have been changed.
+
+`--color` -- Show the diff in glorious color.
+
+`-M` -- Detect a renamed file instead of assuming a wholesale deletion/creation.
+
+### Reference
+
+[`git blame` documentation](https://git-scm.com/docs/git-blame) 
+
+# 
 - Reset vs revert
 - Stashing
 - Interactive staging
